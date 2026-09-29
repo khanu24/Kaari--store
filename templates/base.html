@@ -1,0 +1,144 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>{% block title %}KAARI STORE ™ | Signature Streetwear & Embroidered Caps{% endblock %}</title>
+
+    <!-- Tailwind CSS v3 -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+
+    <!-- Google Fonts: Syne & Inter -->
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Syne:wght@700;800;900&display=swap" rel="stylesheet"/>
+
+    <script>
+        tailwind.config = {
+          theme: {
+            extend: {
+              fontFamily: {
+                sans: ['Inter', 'sans-serif'],
+                display: ['Syne', 'sans-serif'],
+              },
+              colors: {
+                brand: {
+                  stone: '#F4F3EF',
+                  charcoal: '#111111',
+                  cardDark: '#0D0D0D',
+                  subtle: '#7A7A7A',
+                  borderLight: '#E5E4DE',
+                }
+              },
+              letterSpacing: {
+                ultra: '0.25em',
+                mega: '0.35em',
+              }
+            }
+          }
+        }
+    </script>
+
+  <style>
+    /* Watermark text size properly scaled for all screens */
+    .giant-watermark {
+      font-size: clamp(3.5rem, 12vw, 10rem);
+      line-height: 0.85;
+      letter-spacing: -0.04em;
+    }
+    .product-image-container:hover img {
+      transform: scale(1.04);
+    }
+</style>
+</head>
+<body class="bg-brand-stone text-brand-charcoal antialiased selection:bg-black selection:text-white">
+
+    <!-- Top Utility Bar -->
+    <div class="w-full bg-black text-white text-[10px] sm:text-xs tracking-wider uppercase py-2 px-4 sm:px-8 border-b border-neutral-800">
+        <div class="max-w-7xl mx-auto flex items-center justify-between font-medium">
+            <div class="flex items-center space-x-2">
+                <span class="inline-block w-1.5 h-1.5 rounded-full bg-neutral-400"></span>
+                <span>Free Shipping Across Pakistan on Orders Over PKR 3,000</span>
+            </div>
+            <div class="hidden sm:flex items-center space-x-6 text-neutral-400">
+                <a class="hover:text-white transition-colors" href="#">Track Order</a>
+                <span class="text-neutral-700">|</span>
+                <a class="hover:text-white transition-colors" href="#">Help</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation Header -->
+    <header class="w-full bg-brand-stone/90 backdrop-blur-md sticky top-0 z-50 border-b border-brand-borderLight transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-8 h-20 flex items-center justify-between">
+            <nav class="hidden lg:flex items-center space-x-7 text-xs font-semibold uppercase tracking-widest text-neutral-800">
+                <a class="hover:text-black hover:underline underline-offset-8 transition-all" href="{% url 'store:product_list' %}">All Products</a>
+                {% for category in categories %}
+                    <a class="hover:text-black hover:underline underline-offset-8 transition-all" href="{% url 'store:product_list_by_category' category.slug %}">
+                        {{ category.name }}
+                    </a>
+                {% endfor %}
+            </nav>
+<!-- Brand Logo Image -->
+<div class="flex-shrink-0 text-center">
+    <a href="{% url 'store:product_list' %}" class="inline-flex items-center justify-center">
+        <img src="{% static 'images/logo.png' %}"
+             alt="KAARI Logo"
+             class="h-35 sm:h-40 md:h-45 w-auto object-contain py-1 transition-transform hover:scale-105 duration-200">
+    </a>
+</div>
+            <div class="flex items-center space-x-5 sm:space-x-7 text-xs font-semibold tracking-wider text-neutral-800">
+                <a class="flex items-center space-x-1.5 hover:opacity-60 transition-opacity uppercase" href="/admin/">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg>
+                    <span class="hidden md:inline">Account</span>
+                </a>
+                <a class="flex items-center space-x-1.5 hover:opacity-60 transition-opacity uppercase" href="#">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg>
+                    <span>Cart (0)</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Main Footer -->
+    <footer class="bg-black text-neutral-400 pt-16 pb-12 border-t border-neutral-900 text-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-neutral-800">
+                <div class="md:col-span-5 space-y-4">
+                    <h3 class="font-display font-black text-xl tracking-tight text-white uppercase">GET EXCLUSIVE DROPS & UPDATES</h3>
+                    <p class="text-neutral-400 max-w-sm leading-relaxed">Subscribe for embroidered headwear drops, custom capsules, and private pricing.</p>
+                    <form class="flex max-w-md" onsubmit="event.preventDefault();">
+                        <input class="w-full bg-neutral-900 border-neutral-800 text-white placeholder-neutral-500 text-xs px-4 py-3 tracking-wider uppercase focus:ring-1 focus:ring-white" placeholder="ENTER YOUR EMAIL" required type="email"/>
+                        <button class="bg-white text-black font-bold uppercase tracking-widest text-xs px-6 py-3 hover:bg-neutral-200 transition-colors" type="submit">Join</button>
+                    </form>
+                </div>
+                <div class="md:col-span-2 md:col-start-7 space-y-3">
+                    <h4 class="text-white font-bold uppercase tracking-widest text-[11px]">Categories</h4>
+                    <ul class="space-y-2">
+                        {% for category in categories %}
+                            <li><a class="hover:text-white transition-colors" href="{% url 'store:product_list_by_category' category.slug %}">{{ category.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="md:col-span-2 space-y-3">
+                    <h4 class="text-white font-bold uppercase tracking-widest text-[11px]">Studio</h4>
+                    <ul class="space-y-2">
+                        <li><a class="hover:text-white transition-colors" href="#">About Kaari</a></li>
+                        <li><a class="hover:text-white transition-colors" href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-neutral-600 text-[11px] gap-4">
+                <div>© {% now "Y" %} KAARI STORE ATELIER INC. ALL RIGHTS RESERVED.</div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

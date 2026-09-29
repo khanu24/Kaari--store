@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Hero Banner -->
+<section class="relative overflow-hidden pt-8 pb-12 sm:pb-24 lg:pt-14 bg-brand-stone border-b border-brand-borderLight">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 relative min-h-[500px] sm:min-h-[600px] flex flex-col justify-between">
+        <div class="relative z-20 max-w-xs sm:max-w-sm pt-2">
+            <p class="text-[11px] sm:text-xs font-semibold tracking-mega uppercase text-neutral-800 leading-relaxed">
+                HEADWEAR<br/>THAT DEFINES<br/>YOUR SILHOUETTE.
+            </p>
+            <div class="w-10 h-[2px] bg-neutral-900 mt-2.5"></div>
+        </div>
+
+        <!-- Giant Architectural Brand Lettering ("KAARI") - Fixed Watermark -->
+        <div class="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0 overflow-hidden">
+            <span class="giant-watermark font-display font-black text-black/10 tracking-tighter uppercase whitespace-nowrap">
+                KAARI
+            </span>
+        </div>
+
+        <div class="relative z-20 flex flex-col sm:flex-row items-start sm:items-end justify-between gap-6 pt-12">
+            <div class="flex items-center space-x-6">
+                <a class="bg-black text-white text-xs uppercase font-bold tracking-widest px-8 py-3.5 hover:bg-neutral-800 transition-all shadow-md" href="#catalog">
+                    Shop Collection
+                </a>
+            </div>
+            <div class="text-left sm:text-right">
+                <span class="block text-[11px] font-semibold tracking-mega uppercase text-neutral-700">Embroidered Edition</span>
+                <span class="block text-xs font-bold tracking-widest text-neutral-900 mt-0.5">{% now "Y" %} // CAPS</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Dynamic Product Grid Section -->
+<section id="catalog" class="py-14 sm:py-20 bg-brand-stone">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8">
+        <div class="flex items-end justify-between mb-8 pb-3 border-b border-brand-borderLight">
+            <div>
+                <h2 class="text-base sm:text-lg font-extrabold uppercase tracking-widest text-black">
+                    {% if current_category %}{{ current_category.name }}{% else %}All Products{% endif %}
+                </h2>
+            </div>
+            <div class="text-xs uppercase font-bold tracking-widest text-neutral-600">
+                Total Products: {{ products.count }}
+            </div>
+        </div>
+{% if products %}
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        {% for product in products %}
+            <article class="group relative bg-[#EBE9E2] border border-neutral-200/80 p-3 transition-shadow duration-300 hover:shadow-md">
+                <!-- Product Image Link -->
+                <a href="{% url 'store:product_detail' product.slug %}" class="block relative aspect-square w-full overflow-hidden bg-neutral-200">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"/>
+                    {% else %}
+                        <div class="w-full h-full flex items-center justify-center text-xs text-neutral-400 uppercase">No Image</div>
+                    {% endif %}
+                </a>
+
+                <!-- Product Details Link -->
+                <div class="pt-3 pb-1">
+                    <span class="text-[10px] uppercase tracking-widest text-neutral-500 font-bold block">{{ product.category.name }}</span>
+                    <h3 class="text-xs sm:text-sm font-semibold uppercase text-black mt-0.5 tracking-tight truncate">
+                        <a href="{% url 'store:product_detail' product.slug %}" class="hover:underline">
+                            {{ product.name }}
+                        </a>
+                    </h3>
+                    <p class="text-xs font-bold text-neutral-900 mt-1">PKR {{ product.price|floatformat:0 }}</p>
+                </div>
+            </article>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="py-12 text-center text-neutral-500 uppercase tracking-widest text-sm">
+        No products available in this category yet.
+    </div>
+{% endif %}
+
+    </div>
+</section>
+{% endblock %}
