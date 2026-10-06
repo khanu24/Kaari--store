@@ -84,17 +84,21 @@
                 <p class="text-2xl font-bold text-black tracking-tight">PKR {{ product.price|floatformat:0 }}</p>
             </div>
 
-            <!-- Description -->
-            <div class="space-y-3">
-                <h3 class="text-xs font-bold uppercase tracking-widest text-neutral-800">Description & Details</h3>
-                <p class="text-xs sm:text-sm text-neutral-600 leading-relaxed uppercase tracking-wide">
-                    {% if product.description %}
-                        {{ product.description }}
-                    {% else %}
-                        PREMIUM EMBROIDERED HEADWEAR. HAND-CRAFTED ATELIER FINISH WITH ADJUSTABLE STRAP. HIGH-DENSITY THREADWORK DESIGNED FOR DAILY WEAR.
-                    {% endif %}
-                </p>
-            </div>
+           <!-- Description & Details Section -->
+<div class="space-y-3">
+    <h3 class="font-display font-black text-sm uppercase tracking-wider text-black">
+        Description & Details
+    </h3>
+
+    <!-- Render dynamic description from database -->
+    <div class="text-sm font-medium text-neutral-700 leading-relaxed uppercase">
+        {% if product.description %}
+            {{ product.description|linebreaks }}
+        {% else %}
+            No description provided for this product.
+        {% endif %}
+    </div>
+</div>
 
             <!-- Size Options (Brutalist Radio Style) -->
             <div class="space-y-3">
@@ -109,32 +113,32 @@
                 </div>
             </div>
 
-            <!-- Add To Cart & Actions -->
-            <div class="space-y-4 pt-4 border-t border-brand-borderLight">
-                <button type="button"
-                        class="w-full bg-black hover:bg-neutral-800 text-white font-bold py-4 px-8 uppercase tracking-widest text-xs transition-colors duration-200 flex items-center justify-center space-x-3">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg>
-                    <span>Add To Cart</span>
-                </button>
+         <!-- Add To Cart & Actions -->
+<div class="space-y-4 pt-4 border-t border-brand-borderLight">
+    <!-- Updated hx-post for sending POST request -->
+    <button hx-post="{% url 'cart:cart_add' product.id %}"
+            hx-target="#cart-drawer-container"
+            class="w-full bg-black hover:bg-neutral-800 text-white font-bold py-4 px-8 uppercase tracking-widest text-xs transition-colors duration-200 flex items-center justify-center space-x-3 cursor-pointer">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg>
+        <span>Add To Cart</span>
+    </button>
+</div>
 
-                <!-- Value Props List -->
-                <div class="grid grid-cols-2 gap-4 pt-4 text-[11px] uppercase tracking-wider text-neutral-500 font-medium">
-                    <div class="flex items-center space-x-2">
-                        <span>✓ Express Shipping PK</span>
-                    </div>
-                    <div class="flex items-center space-x-2">
-                        <span>✓ 100% Cotton Canvas</span>
-                    </div>
-                    <div class="flex items-center space-x-2">
-                        <span>✓ Cash On Delivery</span>
-                    </div>
-                    <div class="flex items-center space-x-2">
-                        <span>✓ Custom Embroidery</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+<!-- Value Props List -->
+<div class="grid grid-cols-2 gap-4 pt-4 text-[11px] uppercase tracking-wider text-neutral-500 font-medium">
+    <div class="flex items-center space-x-2">
+        <span>✓ Express Shipping PK</span>
     </div>
+    <div class="flex items-center space-x-2">
+        <span>✓ 100% Cotton Canvas</span>
+    </div>
+    <div class="flex items-center space-x-2">
+        <span>✓ Cash On Delivery</span>
+    </div>
+    <div class="flex items-center space-x-2">
+        <span>✓ Custom Embroidery</span>
+    </div>
+</div>
 
     <!-- Related Products Section -->
     {% if related_products %}

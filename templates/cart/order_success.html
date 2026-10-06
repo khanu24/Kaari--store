@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Order Confirmed | KAARI STORE ™{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto px-4 py-20 text-center">
+    <div class="border-4 border-black p-8 sm:p-12 bg-white shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] space-y-6">
+        <div class="inline-block bg-black text-white p-4 rounded-full">
+            <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+        </div>
+
+        <h1 class="font-display font-black text-4xl sm:text-5xl uppercase tracking-tight">
+            Order Confirmed!
+        </h1>
+
+        <p class="text-sm font-medium text-neutral-600 uppercase tracking-wider">
+            Thank you for shopping with KAARI STORE. Your order has been placed successfully and will be delivered soon via Cash on Delivery.
+        </p>
+
+        <div class="pt-6">
+            <a href="{% url 'store:product_list' %}" class="inline-block bg-black text-white font-black py-4 px-8 uppercase tracking-widest text-xs border-2 border-black hover:bg-white hover:text-black transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                Continue Shopping
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

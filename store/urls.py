@@ -5,6 +5,6 @@ app_name = 'store'
 
 urlpatterns = [
     path('', views.product_list, name='product_list'),
-    path('<slug:category_slug>/', views.product_list, name='product_list_by_category'),
+    path('category/<slug:category_slug>/', views.product_list, name='product_list_by_category'),  # Prefix added
     path('product/<slug:slug>/', views.product_detail, name='product_detail'),
 ]

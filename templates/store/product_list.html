@@ -2,15 +2,124 @@
 {% load static %}
 
 {% block content %}
-<!-- Hero Banner -->
-<section class="relative overflow-hidden pt-8 pb-12 sm:pb-24 lg:pt-14 bg-brand-stone border-b border-brand-borderLight">
-    <div class="max-w-7xl mx-auto px-4 sm:px-8 relative min-h-[500px] sm:min-h-[600px] flex flex-col justify-between">
-        <div class="relative z-20 max-w-xs sm:max-w-sm pt-2">
-            <p class="text-[11px] sm:text-xs font-semibold tracking-mega uppercase text-neutral-800 leading-relaxed">
-                HEADWEAR<br/>THAT DEFINES<br/>YOUR SILHOUETTE.
-            </p>
-            <div class="w-10 h-[2px] bg-neutral-900 mt-2.5"></div>
+{% load static %}
+
+<!-- Hero Banner Slider Section (Adjusted Height & Original Colors) -->
+<section class="w-full bg-black border-b border-brand-borderLight overflow-hidden relative">
+    <div class="swiper hero-slider w-full h-[45vh] min-h-[330px] sm:min-h-[380px]">
+        <div class="swiper-wrapper">
+
+            <!-- Slide 1 -->
+            <div class="swiper-slide relative flex items-center justify-center bg-neutral-900 text-white">
+                <div class="absolute inset-0 bg-black/25 z-10"></div>
+                <!-- Original Image Colors -->
+                <img src="{% static 'images/banners/banner1.jpeg' %}"
+                     class="absolute inset-0 w-full h-full object-cover"
+                     alt="Multani Kashi Stitch">
+
+                <div class="relative z-20 text-center px-4 max-w-4xl mx-auto space-y-3">
+                    <span class="text-xs uppercase tracking-mega font-bold text-white/90 drop-shadow block">
+                        South Punjab Heritage / Drop 01
+                    </span>
+                    <h1 class="font-display font-black text-3xl sm:text-5xl md:text-6xl uppercase tracking-tight leading-none text-white drop-shadow-md">
+                        MULTANI KASHI STITCH
+                    </h1>
+                    <p class="text-xs sm:text-sm uppercase tracking-widest text-white/90 font-medium max-w-lg mx-auto drop-shadow">
+                        Hand-embroidered signature headwear crafted with artisanal precision.
+                    </p>
+                    <div class="pt-2">
+                        <a href="#products-grid"
+                           class="inline-block bg-white text-black font-black uppercase text-xs px-6 py-3 tracking-widest hover:bg-neutral-200 transition-all border-2 border-white shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)]">
+                            Explore Collection
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="swiper-slide relative flex items-center justify-center bg-neutral-900 text-white">
+                <div class="absolute inset-0 bg-black/25 z-10"></div>
+                <!-- Original Image Colors -->
+                <img src="{% static 'images/banners/banner2.jpeg' %}"
+                     class="absolute inset-0 w-full h-full object-cover"
+                     alt="Bahawalpuri Rilli">
+
+                <div class="relative z-20 text-center px-4 max-w-4xl mx-auto space-y-3">
+                    <span class="text-xs uppercase tracking-mega font-bold text-white/90 drop-shadow block">
+                        Geometric Artisanal Patchwork
+                    </span>
+                    <h1 class="font-display font-black text-3xl sm:text-5xl md:text-6xl uppercase tracking-tight leading-none text-white drop-shadow-md">
+                        BAHAWALPURI RILLI
+                    </h1>
+                    <p class="text-xs sm:text-sm uppercase tracking-widest text-white/90 font-medium max-w-lg mx-auto drop-shadow">
+                        Brutalist cuts paired with traditional geometric thread work.
+                    </p>
+                    <div class="pt-2">
+                        <a href="#products-grid"
+                           class="inline-block bg-white text-black font-black uppercase text-xs px-6 py-3 tracking-widest hover:bg-neutral-200 transition-all border-2 border-white shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)]">
+                            Shop Headwear
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="swiper-slide relative flex items-center justify-center bg-neutral-900 text-white">
+                <div class="absolute inset-0 bg-black/25 z-10"></div>
+                <!-- Original Image Colors -->
+                <img src="{% static 'images/banners/banner3.jpeg' %}"
+                     class="absolute inset-0 w-full h-full object-cover"
+                     alt="Chunri & Phulkari">
+
+                <div class="relative z-20 text-center px-4 max-w-4xl mx-auto space-y-3">
+                    <span class="text-xs uppercase tracking-mega font-bold text-white/90 drop-shadow block">
+                        Heavyweight Cotton Canvas
+                    </span>
+                    <h1 class="font-display font-black text-3xl sm:text-5xl md:text-6xl uppercase tracking-tight leading-none text-white drop-shadow-md">
+                        CHUNRI & PHULKARI
+                    </h1>
+                    <p class="text-xs sm:text-sm uppercase tracking-widest text-white/90 font-medium max-w-lg mx-auto drop-shadow">
+                        Heavy textured embroidery definition that defines your silhouette.
+                    </p>
+                    <div class="pt-2">
+                        <a href="#products-grid"
+                           class="inline-block bg-white text-black font-black uppercase text-xs px-6 py-3 tracking-widest hover:bg-neutral-200 transition-all border-2 border-white shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)]">
+                            View All Items
+                        </a>
+                    </div>
+                </div>
+            </div>
+
         </div>
+
+        <!-- Navigation & Pagination Controls -->
+        <div class="swiper-pagination !bottom-4"></div>
+        <div class="swiper-button-next !text-white !right-4 after:!text-lg hidden sm:flex"></div>
+        <div class="swiper-button-prev !text-white !left-4 after:!text-lg hidden sm:flex"></div>
+    </div>
+</section>
+
+<!-- Swiper Initialization Script -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const swiper = new Swiper('.hero-slider', {
+            loop: true,
+            autoplay: {
+                delay: 4000,
+                disableOnInteraction: false,
+            },
+            speed: 800,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+    });
+</script>
 
         <!-- Giant Architectural Brand Lettering ("KAARI") - Fixed Watermark -->
         <div class="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0 overflow-hidden">
