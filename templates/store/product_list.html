@@ -2,7 +2,6 @@
 {% load static %}
 
 {% block content %}
-{% load static %}
 
 <!-- Hero Banner Slider Section (Adjusted Height & Original Colors) -->
 <section class="w-full bg-black border-b border-brand-borderLight overflow-hidden relative">
@@ -28,7 +27,7 @@
                         Hand-embroidered signature headwear crafted with artisanal precision.
                     </p>
                     <div class="pt-2">
-                        <a href="#products-grid"
+                        <a href="#catalog"
                            class="inline-block bg-white text-black font-black uppercase text-xs px-6 py-3 tracking-widest hover:bg-neutral-200 transition-all border-2 border-white shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)]">
                             Explore Collection
                         </a>
@@ -55,7 +54,7 @@
                         Brutalist cuts paired with traditional geometric thread work.
                     </p>
                     <div class="pt-2">
-                        <a href="#products-grid"
+                        <a href="#catalog"
                            class="inline-block bg-white text-black font-black uppercase text-xs px-6 py-3 tracking-widest hover:bg-neutral-200 transition-all border-2 border-white shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)]">
                             Shop Headwear
                         </a>
@@ -82,7 +81,7 @@
                         Heavy textured embroidery definition that defines your silhouette.
                     </p>
                     <div class="pt-2">
-                        <a href="#products-grid"
+                        <a href="#catalog"
                            class="inline-block bg-white text-black font-black uppercase text-xs px-6 py-3 tracking-widest hover:bg-neutral-200 transition-all border-2 border-white shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)]">
                             View All Items
                         </a>
@@ -120,27 +119,6 @@
         });
     });
 </script>
-
-        <!-- Giant Architectural Brand Lettering ("KAARI") - Fixed Watermark -->
-        <div class="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0 overflow-hidden">
-            <span class="giant-watermark font-display font-black text-black/10 tracking-tighter uppercase whitespace-nowrap">
-                KAARI
-            </span>
-        </div>
-
-        <div class="relative z-20 flex flex-col sm:flex-row items-start sm:items-end justify-between gap-6 pt-12">
-            <div class="flex items-center space-x-6">
-                <a class="bg-black text-white text-xs uppercase font-bold tracking-widest px-8 py-3.5 hover:bg-neutral-800 transition-all shadow-md" href="#catalog">
-                    Shop Collection
-                </a>
-            </div>
-            <div class="text-left sm:text-right">
-                <span class="block text-[11px] font-semibold tracking-mega uppercase text-neutral-700">Embroidered Edition</span>
-                <span class="block text-xs font-bold tracking-widest text-neutral-900 mt-0.5">{% now "Y" %} // CAPS</span>
-            </div>
-        </div>
-    </div>
-</section>
 
 <!-- Dynamic Product Grid Section -->
 <section id="catalog" class="py-14 sm:py-20 bg-brand-stone">

@@ -18,7 +18,11 @@
 
                 <!-- Product Info -->
                 <div class="flex items-center space-x-4 w-full sm:w-auto">
-                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="w-20 h-20 object-cover border-2 border-black">
+                    {% if item.product.image %}
+                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="w-20 h-20 object-cover border-2 border-black">
+                    {% else %}
+                        <div class="w-20 h-20 bg-neutral-200 border-2 border-black flex items-center justify-center text-[10px] uppercase font-bold text-neutral-500">No Image</div>
+                    {% endif %}
                     <div>
                         <h2 class="font-display font-black text-lg uppercase">{{ item.product.name }}</h2>
                         <p class="text-sm font-bold text-neutral-600">PKR {{ item.price }}</p>
@@ -64,15 +68,15 @@
                 <div class="space-y-3 font-bold uppercase text-sm mb-6">
                     <div class="flex justify-between">
                         <span>Subtotal</span>
-                        <span>PKR {{ cart.get_total_price }}</span>
+                        <span>PKR {{ cart.get_total_price|floatformat:0 }}</span>
                     </div>
                     <div class="flex justify-between text-xs text-neutral-600">
-                        <span>Shipping</span>
-                        <span>FREE</span>
+                        <span>Standard Shipping</span>
+                        <span>PKR {{ cart.get_shipping_cost|floatformat:0 }}</span>
                     </div>
                     <div class="flex justify-between border-t-2 border-black pt-3 text-lg font-black">
                         <span>Total</span>
-                        <span>PKR {{ cart.get_total_price }}</span>
+                        <span>PKR {{ cart.get_final_total|floatformat:0 }}</span>
                     </div>
                 </div>
 

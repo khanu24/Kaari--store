@@ -117,6 +117,7 @@
 <div class="space-y-4 pt-4 border-t border-brand-borderLight">
     <!-- Updated hx-post for sending POST request -->
     <button hx-post="{% url 'cart:cart_add' product.id %}"
+            hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
             hx-target="#cart-drawer-container"
             class="w-full bg-black hover:bg-neutral-800 text-white font-bold py-4 px-8 uppercase tracking-widest text-xs transition-colors duration-200 flex items-center justify-center space-x-3 cursor-pointer">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg>
@@ -127,7 +128,7 @@
 <!-- Value Props List -->
 <div class="grid grid-cols-2 gap-4 pt-4 text-[11px] uppercase tracking-wider text-neutral-500 font-medium">
     <div class="flex items-center space-x-2">
-        <span>✓ Express Shipping PK</span>
+        <span>✓ Standard Shipping PK</span>
     </div>
     <div class="flex items-center space-x-2">
         <span>✓ 100% Cotton Canvas</span>
@@ -139,6 +140,8 @@
         <span>✓ Custom Embroidery</span>
     </div>
 </div>
+        </div> <!-- Close lg:col-span-5 -->
+    </div> <!-- Close grid grid-cols-12 -->
 
     <!-- Related Products Section -->
     {% if related_products %}
@@ -150,6 +153,8 @@
                     <div class="bg-[#EBEAE5] aspect-square overflow-hidden border border-brand-borderLight p-4 flex items-center justify-center">
                         {% if item.image %}
                             <img src="{{ item.image.url }}" alt="{{ item.name }}" class="w-full h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform">
+                        {% else %}
+                            <div class="text-[10px] text-neutral-400 font-bold uppercase">No Image</div>
                         {% endif %}
                     </div>
                     <div>

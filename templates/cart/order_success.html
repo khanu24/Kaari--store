@@ -13,6 +13,27 @@
             Order Confirmed!
         </h1>
 
+        {% if order %}
+        <div class="border-2 border-black p-4 bg-neutral-50 text-left space-y-2 uppercase text-xs font-bold">
+            <div class="flex justify-between border-b border-neutral-300 pb-2">
+                <span>Order Reference:</span>
+                <span class="font-black">#KAARI-{{ order.id }}</span>
+            </div>
+            <div class="flex justify-between border-b border-neutral-300 pb-2">
+                <span>Customer Name:</span>
+                <span class="font-black">{{ order.full_name }}</span>
+            </div>
+            <div class="flex justify-between border-b border-neutral-300 pb-2">
+                <span>Delivery Address:</span>
+                <span class="font-black">{{ order.address }}, {{ order.city }}</span>
+            </div>
+            <div class="flex justify-between pt-1 text-sm font-black">
+                <span>Total Due (COD):</span>
+                <span>PKR {{ order.total_amount }}</span>
+            </div>
+        </div>
+        {% endif %}
+
         <p class="text-sm font-medium text-neutral-600 uppercase tracking-wider">
             Thank you for shopping with KAARI STORE. Your order has been placed successfully and will be delivered soon via Cash on Delivery.
         </p>

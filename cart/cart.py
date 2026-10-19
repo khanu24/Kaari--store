@@ -60,6 +60,12 @@ class Cart:
     def get_total_price(self):
         return sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values())
 
+    def get_shipping_cost(self):
+        return Decimal('250.00') if len(self) > 0 else Decimal('0.00')
+
+    def get_final_total(self):
+        return self.get_total_price() + self.get_shipping_cost()
+
     def clear(self):
         if 'cart_session_key' in self.session:
             del self.session['cart_session_key']

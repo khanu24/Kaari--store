@@ -66,7 +66,7 @@
                     Payment Method
                 </h2>
                 <div class="flex items-center space-x-3 border-2 border-black p-4 bg-neutral-100 font-bold uppercase text-sm">
-                    <input type="radio" checked readonly class="w-4 h-4 text-black focus:ring-0">
+                    <input type="radio" name="payment_method" value="cod" checked readonly class="w-4 h-4 text-black focus:ring-0">
                     <span>Cash on Delivery (COD)</span>
                 </div>
             </div>
@@ -84,7 +84,11 @@
                     {% for item in cart %}
                     <div class="flex items-center justify-between border-b border-neutral-200 pb-3">
                         <div class="flex items-center space-x-3">
-                            <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="w-12 h-12 object-cover border border-black">
+                            {% if item.product.image %}
+                                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="w-12 h-12 object-cover border border-black">
+                            {% else %}
+                                <div class="w-12 h-12 bg-neutral-200 border border-black flex items-center justify-center text-[8px] uppercase font-bold text-neutral-500">No Img</div>
+                            {% endif %}
                             <div>
                                 <h3 class="font-bold uppercase text-xs">{{ item.product.name }}</h3>
                                 <p class="text-xs text-neutral-500">Qty: {{ item.quantity }}</p>
@@ -99,15 +103,15 @@
                 <div class="space-y-2 border-t-2 border-black pt-4 font-bold uppercase text-sm">
                     <div class="flex justify-between">
                         <span>Subtotal</span>
-                        <span>PKR {{ cart.get_total_price }}</span>
+                        <span>PKR {{ cart.get_total_price|floatformat:0 }}</span>
                     </div>
                     <div class="flex justify-between text-xs text-neutral-600">
-                        <span>Shipping</span>
-                        <span>FREE</span>
+                        <span>Standard Shipping</span>
+                        <span>PKR {{ cart.get_shipping_cost|floatformat:0 }}</span>
                     </div>
                     <div class="flex justify-between border-t border-black pt-3 text-lg font-black">
-                        <span>Total</span>
-                        <span>PKR {{ cart.get_total_price }}</span>
+                        <span>Total (COD)</span>
+                        <span>PKR {{ cart.get_final_total|floatformat:0 }}</span>
                     </div>
                 </div>
 

@@ -53,8 +53,10 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.csrf',
                 'django.template.context_processors.media', # Media files
                 'cart.context_processors.cart',
+                'store.context_processors.categories',
             ],
         },
     },
@@ -100,7 +102,7 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript)
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
 # Media files (Product Images upload karne ke liye configuration)
@@ -109,10 +111,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 # Email configuration
-MAILERS = {
-    'default': {
-        'BACKEND': 'django.core.mail.backends.console.EmailBackend',
-    },
-}
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
