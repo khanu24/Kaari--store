@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ product.name }} | KAARI STORE ™{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-8 py-10 md:py-16">
+    <!-- Breadcrumb Nav -->
+    <nav class="flex items-center space-x-2 text-xs text-neutral-500 uppercase tracking-widest mb-8">
+        <a href="{% url 'store:product_list' %}" class="hover:text-black">Home</a>
+        <span>/</span>
+        <a href="{% url 'store:product_list_by_category' product.category.slug %}" class="hover:text-black">{{ product.category.name }}</a>
+        <span>/</span>
+        <span class="text-black font-semibold">{{ product.name }}</span>
+    </nav>
+
+    <!-- Product Grid Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+
+        <!-- Left: Product Image Showcase with Thumbnails -->
+<div class="lg:col-span-7 space-y-4">
+    <!-- Main Display Image -->
+    <div class="bg-[#EBEAE5] border border-brand-borderLight overflow-hidden aspect-square w-full flex items-center justify-center relative group">
+        {% if product.image %}
+            <img id="mainProductImage"
+                 src="{{ product.image.url }}"
+                 alt="{{ product.name }}"
+                 class="w-full h-full object-cover object-center transition-opacity duration-300">
+        {% else %}
+            <div class="text-neutral-400 text-xs font-bold uppercase tracking-widest">No Image Available</div>
+        {% endif %}
+    </div>
+
+    <!-- Thumbnails Gallery Row -->
+    {% if product.images.all or product.image %}
+    <div class="grid grid-cols-5 gap-3">
+        <!-- Featured/Main Cover Thumbnail -->
+        {% if product.image %}
+        <button type="button"
+                onclick="changeImage('{{ product.image.url }}', this)"
+                class="gallery-thumb border-2 border-black bg-[#EBEAE5] aspect-square overflow-hidden focus:outline-none">
+            <img src="{{ product.image.url }}" alt="Main Angle" class="w-full h-full object-cover">
+        </button>
+        {% endif %}
+
+        <!-- Additional Angle Images -->
+        {% for img in product.images.all %}
+        <button type="button"
+                onclick="changeImage('{{ img.image.url }}', this)"
+                class="gallery-thumb border border-brand-borderLight hover:border-black bg-[#EBEAE5] aspect-square overflow-hidden focus:outline-none transition-colors">
+            <img src="{{ img.image.url }}" alt="Angle {{ forloop.counter }}" class="w-full h-full object-cover">
+        </button>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+
+<!-- JavaScript to Switch Main Image on Thumbnail Click -->
+<script>
+    function changeImage(imageUrl, clickedThumb) {
+        // Change main image source
+        const mainImg = document.getElementById('mainProductImage');
+        mainImg.style.opacity = '0.3';
+        setTimeout(() => {
+            mainImg.src = imageUrl;
+            mainImg.style.opacity = '1';
+        }, 150);
+
+        // Active border toggle
+        document.querySelectorAll('.gallery-thumb').forEach(thumb => {
+            thumb.classList.remove('border-2', 'border-black');
+            thumb.classList.add('border', 'border-brand-borderLight');
+        });
+        clickedThumb.classList.remove('border', 'border-brand-borderLight');
+        clickedThumb.classList.add('border-2', 'border-black');
+    }
+</script>
+
+        <!-- Right: Product Info & Buy Action -->
+        <div class="lg:col-span-5 space-y-8">
+            <div class="border-b border-brand-borderLight pb-6">
+                <span class="text-[11px] font-bold tracking-mega uppercase text-neutral-500">{{ product.category.name }}</span>
+                <h1 class="font-display font-black text-3xl sm:text-4xl text-black uppercase tracking-tight mt-1 mb-3">{{ product.name }}</h1>
+                <p class="text-2xl font-bold text-black tracking-tight">PKR {{ product.price|floatformat:0 }}</p>
+            </div>
+
+           <!-- Description & Details Section -->
+<div class="space-y-3">
+    <h3 class="font-display font-black text-sm uppercase tracking-wider text-black">
+        Description & Details
+    </h3>
+
+    <!-- Render dynamic description from database -->
+    <div class="text-sm font-medium text-neutral-700 leading-relaxed uppercase">
+        {% if product.description %}
+            {{ product.description|linebreaks }}
+        {% else %}
+            No description provided for this product.
+        {% endif %}
+    </div>
+</div>
+
+            <!-- Size Options (Brutalist Radio Style) -->
+            <div class="space-y-3">
+                <div class="flex justify-between items-center text-xs font-bold uppercase tracking-widest">
+                    <span>Select Size</span>
+                    <span class="text-neutral-400">One Size Fits All</span>
+                </div>
+                <div class="flex gap-3">
+                    <button type="button" class="border-2 border-black bg-black text-white px-6 py-3 text-xs font-bold uppercase tracking-wider">
+                        OSFA / Standard
+                    </button>
+                </div>
+            </div>
+
+         <!-- Add To Cart & Actions -->
+<div class="space-y-4 pt-4 border-t border-brand-borderLight">
+    <!-- Updated hx-post for sending POST request -->
+    <button hx-post="{% url 'cart:cart_add' product.id %}"
+            hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+            hx-target="#cart-drawer-container"
+            class="w-full bg-black hover:bg-neutral-800 text-white font-bold py-4 px-8 uppercase tracking-widest text-xs transition-colors duration-200 flex items-center justify-center space-x-3 cursor-pointer">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg>
+        <span>Add To Cart</span>
+    </button>
+</div>
+
+<!-- Value Props List -->
+<div class="grid grid-cols-2 gap-4 pt-4 text-[11px] uppercase tracking-wider text-neutral-500 font-medium">
+    <div class="flex items-center space-x-2">
+        <span>✓ Standard Shipping PK</span>
+    </div>
+    <div class="flex items-center space-x-2">
+        <span>✓ 100% Cotton Canvas</span>
+    </div>
+    <div class="flex items-center space-x-2">
+        <span>✓ Cash On Delivery</span>
+    </div>
+    <div class="flex items-center space-x-2">
+        <span>✓ Custom Embroidery</span>
+    </div>
+</div>
+        </div> <!-- Close lg:col-span-5 -->
+    </div> <!-- Close grid grid-cols-12 -->
+
+    <!-- Related Products Section -->
+    {% if related_products %}
+    <div class="mt-24 border-t border-brand-borderLight pt-16">
+        <h2 class="font-display font-black text-2xl uppercase tracking-tight text-black mb-8">You Might Also Like</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
+            {% for item in related_products %}
+                <a href="{% url 'store:product_detail' item.slug %}" class="group block space-y-3">
+                    <div class="bg-[#EBEAE5] aspect-square overflow-hidden border border-brand-borderLight p-4 flex items-center justify-center">
+                        {% if item.image %}
+                            <img src="{{ item.image.url }}" alt="{{ item.name }}" class="w-full h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform">
+                        {% else %}
+                            <div class="text-[10px] text-neutral-400 font-bold uppercase">No Image</div>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-xs uppercase tracking-wider text-black group-hover:underline">{{ item.name }}</h4>
+                        <p class="text-xs text-neutral-500 font-medium mt-1">PKR {{ item.price|floatformat:0 }}</p>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

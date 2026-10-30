@@ -1,0 +1,199 @@
+<div id="cart-drawer"
+     class="fixed inset-0 z-50 overflow-hidden"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="drawer-title">
+
+    <!-- Backdrop Overlay with Smooth Fade -->
+    <div class="fixed inset-0 bg-black/70 backdrop-blur-sm transition-opacity duration-300"
+         onclick="closeCartDrawer()"></div>
+
+    <div class="fixed inset-y-0 right-0 flex max-w-full">
+        <!-- Brutalist Responsive Drawer Panel -->
+        <div class="w-screen max-w-[92vw] sm:max-w-md bg-[#EBEAE5] border-l-2 sm:border-l-4 border-black p-4 sm:p-6 flex flex-col justify-between shadow-2xl relative z-10 transition-transform duration-300 ease-out">
+
+            <!-- Drawer Header -->
+            <div class="flex items-center justify-between border-b-2 border-black pb-3 sm:pb-4">
+                <div class="flex items-center gap-2">
+                    <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                    </svg>
+                    <h2 id="drawer-title" class="text-base sm:text-xl font-display font-black uppercase tracking-wider text-black">
+                        Your Cart ({{ cart|length }})
+                    </h2>
+                </div>
+                <button type="button"
+                        onclick="closeCartDrawer()"
+                        aria-label="Close cart drawer"
+                        class="text-black font-black text-xl sm:text-2xl w-9 h-9 flex items-center justify-center hover:bg-black hover:text-white border border-transparent hover:border-black transition-colors rounded-none focus:outline-none cursor-pointer">
+                    ✕
+                </button>
+            </div>
+
+            <!-- Cart Items Scrollable List -->
+            <div class="flex-1 overflow-y-auto my-4 sm:my-6 space-y-3 sm:space-y-4 pr-1">
+                {% if cart %}
+                    {% for item in cart %}
+                    <div class="border-2 border-black bg-white p-3 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-all">
+                        <div class="flex items-start gap-3">
+                            <!-- Product Thumbnail -->
+                            <a href="{% url 'store:product_detail' item.product.slug %}" class="flex-shrink-0 block">
+                                {% if item.product.image %}
+                                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="w-14 h-14 sm:w-16 sm:h-16 object-cover border border-black bg-neutral-100">
+                                {% else %}
+                                    <div class="w-14 h-14 sm:w-16 sm:h-16 bg-neutral-200 border border-black flex items-center justify-center text-[9px] uppercase font-bold text-neutral-500">No Img</div>
+                                {% endif %}
+                            </a>
+
+                            <!-- Product Info & Pricing -->
+                            <div class="flex-1 min-w-0">
+                                <h3 class="font-bold text-xs sm:text-sm uppercase tracking-tight text-black truncate leading-tight">
+                                    <a href="{% url 'store:product_detail' item.product.slug %}" class="hover:underline">
+                                        {{ item.product.name }}
+                                    </a>
+                                </h3>
+                                <p class="text-[11px] font-semibold text-neutral-600 mt-0.5">
+                                    PKR {{ item.price|floatformat:0 }}
+                                </p>
+
+                                <!-- Quantity Controls Row -->
+                                <div class="flex items-center justify-between mt-2 pt-2 border-t border-neutral-200">
+                                    <div class="flex items-center border border-black bg-neutral-50">
+                                        <!-- Minus button -->
+                                        {% if item.quantity > 1 %}
+                                        <button hx-post="{% url 'cart:cart_add' item.product.id %}"
+                                                hx-vals='{"quantity": "{{ item.quantity|add:"-1" }}", "override": "True"}'
+                                                hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                                                hx-target="#cart-drawer-container"
+                                                class="w-6 h-6 flex items-center justify-center font-black text-xs hover:bg-black hover:text-white transition-colors cursor-pointer"
+                                                aria-label="Decrease quantity">
+                                            −
+                                        </button>
+                                        {% else %}
+                                        <button hx-post="{% url 'cart:cart_remove' item.product.id %}"
+                                                hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                                                hx-target="#cart-drawer-container"
+                                                class="w-6 h-6 flex items-center justify-center font-black text-xs text-red-600 hover:bg-red-600 hover:text-white transition-colors cursor-pointer"
+                                                aria-label="Remove item">
+                                            ✕
+                                        </button>
+                                        {% endif %}
+
+                                        <!-- Quantity Display -->
+                                        <span class="w-7 text-center font-black text-xs select-none">
+                                            {{ item.quantity }}
+                                        </span>
+
+                                        <!-- Plus button -->
+                                        <button hx-post="{% url 'cart:cart_add' item.product.id %}"
+                                                hx-vals='{"quantity": "1", "override": "False"}'
+                                                hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                                                hx-target="#cart-drawer-container"
+                                                class="w-6 h-6 flex items-center justify-center font-black text-xs hover:bg-black hover:text-white transition-colors cursor-pointer"
+                                                aria-label="Increase quantity">
+                                            +
+                                        </button>
+                                    </div>
+
+                                    <!-- Item Subtotal -->
+                                    <span class="font-black text-xs sm:text-sm text-black whitespace-nowrap">
+                                        PKR {{ item.total_price|floatformat:0 }}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Direct Delete Button -->
+                            <button hx-post="{% url 'cart:cart_remove' item.product.id %}"
+                                    hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                                    hx-target="#cart-drawer-container"
+                                    class="text-neutral-400 hover:text-red-600 p-1 transition-colors cursor-pointer"
+                                    title="Remove item"
+                                    aria-label="Remove {{ item.product.name }}">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <!-- Empty Cart State -->
+                    <div class="text-center py-12 px-4 space-y-3">
+                        <div class="w-12 h-12 mx-auto rounded-full bg-neutral-200 border-2 border-black flex items-center justify-center">
+                            <svg class="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                            </svg>
+                        </div>
+                        <h4 class="font-display font-black text-sm uppercase tracking-wider text-black">Your Cart is Empty</h4>
+                        <p class="text-xs text-neutral-600 uppercase font-medium">Explore signature drops & headwear.</p>
+                        <div class="pt-2">
+                            <button type="button"
+                                    onclick="closeCartDrawer()"
+                                    class="inline-block bg-black text-white font-black text-[11px] uppercase tracking-widest px-5 py-2.5 border-2 border-black hover:bg-neutral-800 transition-colors cursor-pointer">
+                                Continue Shopping
+                            </button>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Footer & Actions (Pinned at bottom) -->
+            {% if cart %}
+            <div class="border-t-2 border-black pt-3 sm:pt-4 space-y-3 bg-[#EBEAE5]">
+                <div class="space-y-1.5 text-xs uppercase font-bold">
+                    <div class="flex justify-between items-center text-neutral-600">
+                        <span>Subtotal</span>
+                        <span>PKR {{ cart.get_total_price|floatformat:0 }}</span>
+                    </div>
+                    <div class="flex justify-between items-center text-neutral-600">
+                        <span>Standard Shipping</span>
+                        <span>PKR {{ cart.get_shipping_cost|floatformat:0 }}</span>
+                    </div>
+                    <div class="flex justify-between items-center text-sm sm:text-base font-black text-black pt-1 border-t border-black/20">
+                        <span>Total (COD)</span>
+                        <span>PKR {{ cart.get_final_total|floatformat:0 }}</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-1.5 text-[10px] sm:text-[11px] font-bold uppercase text-neutral-700 bg-neutral-100 border border-neutral-300 p-2">
+                    <span class="inline-block w-2 h-2 rounded-full bg-black"></span>
+                    <span>Standard Shipping Across PK: PKR 250</span>
+                </div>
+
+                <div class="space-y-2">
+                    <a href="{% url 'cart:checkout' %}"
+                       class="w-full block text-center bg-black hover:bg-neutral-800 text-white font-black py-3 sm:py-3.5 uppercase tracking-widest text-xs border-2 border-black transition-all shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5 cursor-pointer">
+                        Proceed to Checkout (COD)
+                    </a>
+                    <a href="{% url 'cart:cart_detail' %}"
+                       class="w-full block text-center bg-white hover:bg-neutral-100 text-black font-black py-2.5 uppercase tracking-widest text-[11px] border-2 border-black transition-all cursor-pointer">
+                        View Full Cart
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+<script>
+    function closeCartDrawer() {
+        const drawer = document.getElementById('cart-drawer');
+        if (drawer) {
+            drawer.remove();
+        }
+        document.body.classList.remove('overflow-hidden');
+    }
+
+    // Lock body scroll while drawer is open
+    document.body.classList.add('overflow-hidden');
+
+    // Close on Escape key press
+    document.addEventListener('keydown', function handleEscape(e) {
+        if (e.key === 'Escape') {
+            closeCartDrawer();
+            document.removeEventListener('keydown', handleEscape);
+        }
+    });
+</script>

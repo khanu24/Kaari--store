@@ -1,0 +1,170 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- Hero Banner Slider Section (Adjusted Height & Original Colors) -->
+<section class="w-full bg-black border-b border-brand-borderLight overflow-hidden relative">
+    <div class="swiper hero-slider w-full h-[45vh] min-h-[330px] sm:min-h-[380px]">
+        <div class="swiper-wrapper">
+
+            <!-- Slide 1 -->
+            <div class="swiper-slide relative flex items-center justify-center bg-neutral-900 text-white">
+                <div class="absolute inset-0 bg-black/25 z-10"></div>
+                <!-- Original Image Colors -->
+                <img src="{% static 'images/banners/banner1.jpeg' %}"
+                     class="absolute inset-0 w-full h-full object-cover"
+                     alt="Multani Kashi Stitch">
+
+                <div class="relative z-20 text-center px-4 max-w-4xl mx-auto space-y-3">
+                    <span class="text-xs uppercase tracking-mega font-bold text-white/90 drop-shadow block">
+                        South Punjab Heritage / Drop 01
+                    </span>
+                    <h1 class="font-display font-black text-3xl sm:text-5xl md:text-6xl uppercase tracking-tight leading-none text-white drop-shadow-md">
+                        MULTANI KASHI STITCH
+                    </h1>
+                    <p class="text-xs sm:text-sm uppercase tracking-widest text-white/90 font-medium max-w-lg mx-auto drop-shadow">
+                        Hand-embroidered signature headwear crafted with artisanal precision.
+                    </p>
+                    <div class="pt-2">
+                        <a href="#catalog"
+                           class="inline-block bg-white text-black font-black uppercase text-xs px-6 py-3 tracking-widest hover:bg-neutral-200 transition-all border-2 border-white shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)]">
+                            Explore Collection
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="swiper-slide relative flex items-center justify-center bg-neutral-900 text-white">
+                <div class="absolute inset-0 bg-black/25 z-10"></div>
+                <!-- Original Image Colors -->
+                <img src="{% static 'images/banners/banner2.jpeg' %}"
+                     class="absolute inset-0 w-full h-full object-cover"
+                     alt="Bahawalpuri Rilli">
+
+                <div class="relative z-20 text-center px-4 max-w-4xl mx-auto space-y-3">
+                    <span class="text-xs uppercase tracking-mega font-bold text-white/90 drop-shadow block">
+                        Geometric Artisanal Patchwork
+                    </span>
+                    <h1 class="font-display font-black text-3xl sm:text-5xl md:text-6xl uppercase tracking-tight leading-none text-white drop-shadow-md">
+                        BAHAWALPURI RILLI
+                    </h1>
+                    <p class="text-xs sm:text-sm uppercase tracking-widest text-white/90 font-medium max-w-lg mx-auto drop-shadow">
+                        Brutalist cuts paired with traditional geometric thread work.
+                    </p>
+                    <div class="pt-2">
+                        <a href="#catalog"
+                           class="inline-block bg-white text-black font-black uppercase text-xs px-6 py-3 tracking-widest hover:bg-neutral-200 transition-all border-2 border-white shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)]">
+                            Shop Headwear
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="swiper-slide relative flex items-center justify-center bg-neutral-900 text-white">
+                <div class="absolute inset-0 bg-black/25 z-10"></div>
+                <!-- Original Image Colors -->
+                <img src="{% static 'images/banners/banner3.jpeg' %}"
+                     class="absolute inset-0 w-full h-full object-cover"
+                     alt="Chunri & Phulkari">
+
+                <div class="relative z-20 text-center px-4 max-w-4xl mx-auto space-y-3">
+                    <span class="text-xs uppercase tracking-mega font-bold text-white/90 drop-shadow block">
+                        Heavyweight Cotton Canvas
+                    </span>
+                    <h1 class="font-display font-black text-3xl sm:text-5xl md:text-6xl uppercase tracking-tight leading-none text-white drop-shadow-md">
+                        CHUNRI & PHULKARI
+                    </h1>
+                    <p class="text-xs sm:text-sm uppercase tracking-widest text-white/90 font-medium max-w-lg mx-auto drop-shadow">
+                        Heavy textured embroidery definition that defines your silhouette.
+                    </p>
+                    <div class="pt-2">
+                        <a href="#catalog"
+                           class="inline-block bg-white text-black font-black uppercase text-xs px-6 py-3 tracking-widest hover:bg-neutral-200 transition-all border-2 border-white shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)]">
+                            View All Items
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Navigation & Pagination Controls -->
+        <div class="swiper-pagination !bottom-4"></div>
+        <div class="swiper-button-next !text-white !right-4 after:!text-lg hidden sm:flex"></div>
+        <div class="swiper-button-prev !text-white !left-4 after:!text-lg hidden sm:flex"></div>
+    </div>
+</section>
+
+<!-- Swiper Initialization Script -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const swiper = new Swiper('.hero-slider', {
+            loop: true,
+            autoplay: {
+                delay: 4000,
+                disableOnInteraction: false,
+            },
+            speed: 800,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+    });
+</script>
+
+<!-- Dynamic Product Grid Section -->
+<section id="catalog" class="py-14 sm:py-20 bg-brand-stone">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8">
+        <div class="flex items-end justify-between mb-8 pb-3 border-b border-brand-borderLight">
+            <div>
+                <h2 class="text-base sm:text-lg font-extrabold uppercase tracking-widest text-black">
+                    {% if current_category %}{{ current_category.name }}{% else %}All Products{% endif %}
+                </h2>
+            </div>
+            <div class="text-xs uppercase font-bold tracking-widest text-neutral-600">
+                Total Products: {{ products.count }}
+            </div>
+        </div>
+{% if products %}
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        {% for product in products %}
+            <article class="group relative bg-[#EBE9E2] border border-neutral-200/80 p-3 transition-shadow duration-300 hover:shadow-md">
+                <!-- Product Image Link -->
+                <a href="{% url 'store:product_detail' product.slug %}" class="block relative aspect-square w-full overflow-hidden bg-neutral-200">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"/>
+                    {% else %}
+                        <div class="w-full h-full flex items-center justify-center text-xs text-neutral-400 uppercase">No Image</div>
+                    {% endif %}
+                </a>
+
+                <!-- Product Details Link -->
+                <div class="pt-3 pb-1">
+                    <span class="text-[10px] uppercase tracking-widest text-neutral-500 font-bold block">{{ product.category.name }}</span>
+                    <h3 class="text-xs sm:text-sm font-semibold uppercase text-black mt-0.5 tracking-tight truncate">
+                        <a href="{% url 'store:product_detail' product.slug %}" class="hover:underline">
+                            {{ product.name }}
+                        </a>
+                    </h3>
+                    <p class="text-xs font-bold text-neutral-900 mt-1">PKR {{ product.price|floatformat:0 }}</p>
+                </div>
+            </article>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="py-12 text-center text-neutral-500 uppercase tracking-widest text-sm">
+        No products available in this category yet.
+    </div>
+{% endif %}
+
+    </div>
+</section>
+{% endblock %}
